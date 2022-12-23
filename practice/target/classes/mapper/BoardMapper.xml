@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BoardDao">
+	<resultMap type="board" id="board">
+		<result column="board_num" property="boardNum"/>
+		<result column="board_title" property="boardTitle"/>
+		<result column="board_content" property="boardContent"/>
+		<result column="board_content_reply" property="boardContentReply"/>
+		<result column="notice_YN" property="noticeYN"/>
+		<result column="write_date" property="writeDate"/>
+		<result column="regist_date" property="registDate"/>
+		<result column="update_date" property="updateDate"/>
+		<result column="regist_id" property="registId"/>
+		<result column="update_id" property="updateId"/>
+		<result column="regist_ip" property="registIp"/>
+		<result column="update_ip" property="updateIp"/>
+		
+	</resultMap>
+	
+	<resultMap type="member" id="member">
+		<result column="user_id" property="userId"/>
+		<result column="user_password" property="userPassword"/>
+		<result column="user_name" property="userName"/>
+		<result column="user_email" property="userEmail"/>
+		<result column="user_address" property="userAddress"/>
+	</resultMap>
+
+	
+	<!-- 검색 조건문 -->
+    <sql id="criteria">
+        <trim prefix="AND (" suffix=")" prefixOverrides="OR">
+            <foreach collection="typeArr" item="type">
+                <trim prefix="OR">
+                    <choose>
+                        <when test="type == 'T'.toString()">
+                            board_title like '%'||#{keyword}||'%' 
+                        </when>
+                        <when test="type == 'C'.toString()">
+                            board_content like '%'||#{keyword}||'%' 
+                        </when>
+                         
+                        <when test="type == 'W'.toString()">
+                            regist_id like '%'||#{keyword}||'%' 
+                        </when>
+                        
+                        
+                    </choose>
+                </trim>
+            </foreach>
+        </trim>
+    
+    </sql>
+	
+	<select id="boardList" resultType="board" parameterType="board" resultMap="board">
+     	select *
+     	from (
+	     	SELECT *
+			FROM memo_yyj
+			WHERE 1=1
+			<if test="boardTitle!=null">
+			AND board_title LIKE '%'||#{boardTitle, jdbcType=VARCHAR}||'%'
+			</if>
+
+			order by board_num desc
+			)
+			where 1=1
+			<if test="noticeYN!=null">
+            order by notice_yn desc
+			</if>
+   </select>
+   
+    <!-- 게시물 목록(페이징) -->
+    <select id="getListPaging" resultMap="board">
+    
+    <![CDATA[
+        
+        select BOARD_NUM, BOARD_TITLE ,BOARD_CONTENT ,BOARD_CONTENT_REPLY ,NOTICE_YN ,WRITE_DATE,REGIST_DATE ,UPDATE_DATE ,REGIST_ID ,UPDATE_ID ,REGIST_IP ,UPDATE_IP from(
+        
+                select rownum  as rn, BOARD_NUM, BOARD_TITLE ,BOARD_CONTENT ,BOARD_CONTENT_REPLY ,NOTICE_YN ,WRITE_DATE,REGIST_DATE ,UPDATE_DATE ,REGIST_ID ,UPDATE_ID ,REGIST_IP ,UPDATE_IP
+                  
+                from memo_yyj where rownum <= #{pageNum} * #{amount}
+                
+        ]]>            
+                <if test="keyword != null">
+                    <include refid="criteria"></include> 
+                </if>
+    
+		   <![CDATA[
+		                   
+		               )
+		                   
+		       where rn > (#{pageNum} -1) * #{amount}
+		   
+		   ]]>  
+    
+    </select>
+    
+    <!-- 게시물 총 갯수 -->
+    <select id="getTotal" resultType="int">
+    
+        select count(*) from memo_yyj
+        
+        <if test="keyword != null">
+        
+            where board_num > 0 <include refid="criteria"></include>
+        
+        </if>
+    
+    </select>
+   
+   <insert id="boardInsert" parameterType="board">
+   		insert into memo_yyj values(memo_yyj_seq.nextval ,#{boardTitle,jdbcType=VARCHAR}, #{boardContent,jdbcType=VARCHAR}, #{boardContentReply,jdbcType=VARCHAR}, #{noticeYN}, #{writeDate}, sysdate, sysdate, #{registId,jdbcType=VARCHAR}, #{updateId,jdbcType=VARCHAR}, #{registIp}, #{updateIp})
+   </insert>
+   
+   <select id="boardDetail" parameterType="int" resultType="board" resultMap="board">
+   		SELECT *
+		FROM memo_yyj
+		WHERE board_num = #{boardNum}
+   </select>
+   
+   <update id="boardUpdate" parameterType="board">
+		UPDATE memo_yyj 
+			SET board_title = #{boardTitle},
+				board_content = #{boardContent},
+				board_content_reply = #{boardContentReply},
+				update_id = #{updateId},
+				notice_yn = #{noticeYN},
+				write_date = #{writeDate},
+				regist_date = sysdate,
+				update_date = sysdate
+				
+		WHERE board_num = #{boardNum}
+	</update>
+	
+	<delete id="boardDelete" parameterType="int">
+		delete
+		from memo_yyj
+		where board_num = #{boardNum}
+	</delete>
+	
+	
+</mapper>

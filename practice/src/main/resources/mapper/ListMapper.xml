@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ListDao">
+	<resultMap type="info" id="info">
+		<result column="USER_IDX" property="userIdx"/>
+		<result column="USER_REGISTER_DATE" property="userRegisterDate"/>
+		<result column="USER_NAME" property="userName"/>
+		<result column="USER_SEX" property="userSex"/>
+		<result column="USER_COMP" property="userComp"/>
+		<result column="USER_DEPT" property="userDept"/>
+		
+		<collection property="userVO" resultMap="uservo"/>
+		<collection property="userInfoCareer" resultMap="career"/>
+		<collection property="userInfoEdu" resultMap="edu"/>
+		<collection property="userInfoLicen" resultMap="licen" />
+		<collection property="userInfoQualifi" resultMap="qualifi"/>
+		<collection property="userInfoSkill" resultMap="skill"/>
+		<collection property="userInfoTraining" resultMap="training"/>
+		<collection property="userInfoBody" resultMap="body"/>
+		<collection property="image" resultMap="image"/>
+	</resultMap>
+	
+
+	<resultMap type="career" id="career">
+		<result column="CAREER_IDX" property="careerIdx"/>
+		<result column="USER_IDX" property="userIdx"/>
+		<result column="CAREER_COMP_NAME" property="careerCompName"/>
+		<result column="CAREER_ENTERDATE" property="careerEnterdate"/>
+		<result column="CAREER_LEAVEDATE" property="careerLeavedate"/>
+		<result column="CAREER_SPOT" property="careerSpot"/>
+		<result column="CAREER_RESPONSIB" property="careerResponsib"/>
+		<result column="CAREER_DATE" property="careerDate"/>
+	</resultMap>
+	
+	<resultMap type="edu" id="edu">
+		<result column="EDU_IDX" property="eduIdx"/>
+		<result column="USER_IDX" property="userIdx"/>
+		<result column="EDU_SCHOOL_NAME" property="eduSchoolName"/>
+		<result column="EDU_STATUS" property="eduStatus"/>
+		<result column="EDU_GRADUATION" property="eduGraduation"/>
+	</resultMap>
+	
+	<resultMap type="licen" id="licen">
+		<result column="LICEN_IDX" property="licenIdx"/>
+		<result column="USER_IDX" property="UserIdx"/>
+		<result column="LICEN_NAME" property="licenName"/>
+		<result column="LICEN_SKILL_LEVEL" property="licenSkillLevel"/>
+	</resultMap>
+	
+	<resultMap type="qualifi" id="qualifi">
+		<result column="QUALIFI_IDX" property="qualifiIdx"/>
+		<result column="USER_IDX" property="userIdx"/>
+		<result column="QUALIFI_NAME" property="qualifiName"/>
+		<result column="QUALIFI_GETDATE" property="qualifiGetdate"/>
+	</resultMap>
+	
+	<resultMap type="skill" id="skill">
+		<result column="SKILL_IDX" property="skillIdx"/>
+		<result column="USER_IDX" property="userIdx"/>
+		<result column="SKILL_PROJECT_NAME" property="skillProjectName"/>
+		<result column="SKILL_STARTDATE" property="skillStartdate"/>
+		<result column="SKILL_ENDDATE" property="skillEnddate"/>
+		<result column="SKILL_CUSTOMER_COMP" property="skillCustomerComp"/>
+		<result column="SKILL_WORK_COMP" property="skillWorkComp"/>
+		<result column="SKILL_APPLIED" property="skillApplied"/>
+		<result column="SKILL_INDUSTRY" property="skillIndustry"/>
+		<result column="SKILL_ROLE" property="skillRole"/>
+		<result column="SKILL_MODEL" property="skillModel"/>
+		<result column="SKILL_OS" property="skillOs"/>
+		<result column="SKILL_LANG" property="skillLang"/>
+		<result column="SKILL_DBMS" property="skillDbms"/>
+		<result column="SKILL_COMM" property="skillComm"/>
+		<result column="SKILL_TOOL" property="skillTool"/>
+		<result column="SKILL_ETC" property="skillEtc"/>
+	</resultMap>
+	
+	<resultMap type="training" id="training">
+		<result column="TRAINING_IDX" 			property="trainingIdx"/>
+		<result column="USER_IDX" 				property="userIdx"/>
+		<result column="TRAINING_NAME" 			property="trainingName"/>
+		<result column="TRAINING_STARTDATE" 	property="trainingStartdate"/>
+		<result column="TRAINING_ENDDATE" 		property="trainingEnddate"/>
+		<result column="TRAINING_AGENCY"		property="trainingAgency"/>
+	</resultMap>
+	
+	<resultMap type="body" id="body">
+		<result column="BODY_IDX" 			property="bodyIdx"/>
+		<result column="USER_IDX" 				property="userIdx"/>
+		<result column="BODY_BLOOD_TYPE" 			property="bodyBloodType"/>
+		<result column="BODY_WEIGHT" 	property="bodyWeight"/>
+		<result column="BODY_HEIGHT" 		property="bodyHeight"/>
+		<result column="BODY_EYESIGHT_LEFT"		property="bodyEyeSightLeft"/>
+		<result column="BODY_EYESIGHT_RIGHT"		property="bodyEyeSightRight"/>
+	</resultMap>
+	<!-- 
+
+	 -->
+	<resultMap type="image" id="image">
+		<result column="IMG_IDX" 			property="imgIdx"/>
+		<result column="USER_IDX" 				property="userIdx"/>
+		<result column="IMG_NAME" 			property="imgName"/>
+	</resultMap>
+	
+	<resultMap type="uservo" id="uservo">
+		<result column="USER_IDX" property="userIdx"/>
+		<result column="USER_NAME" property="userName"/>
+		<result column="USER_COMP" property="userComp"/>
+		<result column="USER_DEPT" property="userDept"/>
+		<result column="USER_REGISTER_DATE" property="userregisterdate"/>
+		<result column="USER_SEX" property="userSex"/>
+		<result column="CAREER_DATE" property="careerDate"/>
+		<result column="USER_ADDRESS" property="userAddress"/>
+	</resultMap>
+	<sql id="userListWhere">
+		<where>
+			<if test="userListSearchPeriod != null and userListSearchPeriod != ''">
+				<choose>
+					<when test="userListSearchPeriod[0] == 'userName'">
+						  user_name LIKE '%${userListSearchWord[0]}%'
+					</when>
+					<when test="userListSearchPeriod[0] == 'userComp'">
+						 user_comp LIKE '%${userListSearchWord[0]}%'
+					</when>
+					<when test="userListSearchPeriod[0] == 'userDept'">
+						 user_dept LIKE '%${userListSearchWord[0]}%'
+					</when>
+					<when test="userListSearchPeriod[0] == 'careerDate'">
+						 career_date LIKE '%${userListSearchWord[0]}%'
+					</when>
+					<when test="userListSearchPeriod[0] == 'userAddress'">
+						 user_address LIKE '%${userListSearchWord[0]}%'
+					</when>
+				</choose>
+				
+			</if>
+			<if test="userCareerLength != null">
+					AND c.career_date>=#{userCareerLength[0]}
+			</if>
+			<if test="keywords != null">
+				AND 
+					<foreach collection="keywords" item="keywords" separator="OR">
+					(
+					s.skill_model like 		upper('%'||#{keywords}||'%')
+					 or s.skill_os like 	upper('%'||#{keywords}||'%')
+					 or s.skill_lang like 	upper('%'||#{keywords}||'%') 
+					 or s.skill_dbms like 	upper('%'||#{keywords}||'%')
+					 or s.skill_comm like 	upper('%'||#{keywords}||'%')
+					 or s.skill_tool like 	upper('%'||#{keywords}||'%')
+					 or s.skill_etc like 	upper('%'||#{keywords}||'%')
+					 )
+					</foreach>
+			</if>
+		</where>
+	</sql>
+	 
+
+	<select id="getUserList" resultMap="uservo" resultType="uservo" parameterType="Integer">
+		SELECT * FROM
+		(SELECT ROWNUM AS RNUM, A.* FROM
+			(SELECT DISTINCT u.user_idx
+				, u.user_name
+				, u.user_comp
+				, u.user_dept
+				, to_char(u.user_register_date, 'yyyy-mm-dd HH24:MI:SS') AS userRegisterDate
+				, u.user_sex 
+				, u.user_address 
+				, u.user_marital_status
+				, c.career_date
+			FROM 
+				user_info u
+			LEFT OUTER JOIN 
+				user_info_skill s
+			ON u.user_idx=s.user_idx
+			LEFT OUTER JOIN 
+				(select 
+					user_idx
+					,round(abs(sum((nvl(trunc(skill_startdate),sysdate) - nvl(trunc(skill_enddate),sysdate))/365))) as career_date
+				from user_info_skill group by user_idx) c        
+	 		ON s.user_idx=c.user_idx	
+			<include refid="userListWhere"/>	
+			ORDER BY user_idx DESC
+			)A)
+			
+   </select>
+   
+ 
+   <!-- 
+     <select id="detailUserList" parameterType="Integer">
+   		
+   </select>
+   	<select id="getUserCountByCareerDate" resultType="hashmap">
+		SELECT 
+			count(s.career_date)as count
+			,s.career_date
+		FROM
+			(SELECT 
+				user_idx
+				,nvl(round(abs(sum((trunc(skill_startdate) - trunc(skill_enddate))/365))),0)as career_date
+			FROM 
+				user_info_skill
+			GROUP BY 
+				'cd'
+				,user_idx) s
+		GROUP BY 
+			'career_date'
+			,s.career_date
+		ORDER BY
+			career_date	desc
+	</select>
+   
+    -->
+    <!-- 
+      <select id="detailUserList" parameterType="Integer" resultType="info" >
+   		SELECT u.*, i.imgName
+		FROM user_info u, image i
+		WHERE u.userIdx = i.userIdx(+)
+		and u.userIdx = #{userIdx}
+   </select>
+     -->
+  
+   
+   <!-- 
+   <delete id="deleteUserList" parameterType="Integer">
+		DELETE FROM user_info
+		 WHERE user_idx = #{userIdx}
+	
+		DELETE FROM user_info_career
+		 WHERE user_idx = #{userIdx}
+	
+		DELETE FROM user_info_edu
+		 WHERE user_idx = #{userIdx}
+	
+		DELETE FROM user_info_licen
+		 WHERE user_idx = #{userIdx}
+	
+		DELETE FROM user_info_qualifi
+		 WHERE user_idx = #{userIdx}
+	
+		DELETE FROM user_info_skill
+		 WHERE user_idx = #{userIdx}
+	
+		DELETE FROM user_info_training
+		 WHERE user_idx = #{userIdx}
+	</delete>
+	
+	
+	
+    
+	<delete id="deleteUserList" parameterType="Integer">>
+		{
+		   	call
+		   		declare
+		    BEGIN
+		        DELETE FROM user_info
+				 WHERE user_idx = #{userIdx};
+			
+				DELETE FROM user_info_career
+				 WHERE user_idx = #{userIdx};
+			
+				DELETE FROM user_info_edu
+				 WHERE user_idx = #{userIdx};
+			
+				DELETE FROM user_info_licen
+				 WHERE user_idx = #{userIdx};
+			
+				DELETE FROM user_info_qualifi
+				 WHERE user_idx = #{userIdx};
+			
+				DELETE FROM user_info_skill
+				 WHERE user_idx = #{userIdx};
+			
+				DELETE FROM user_info_training
+				 WHERE user_idx = #{userIdx};
+				 
+				DELETE FROM image
+				 WHERE user_idx = #{userIdx};
+		    END
+		}
+	</delete> -->
+	<delete id="deleteUserList" parameterType="info">
+		DELETE FROM user_info
+		WHERE user_idx = #{userIdx}
+	</delete>
+	<delete id="deleteCareerData" parameterType="info">
+		DELETE FROM user_info_career
+		WHERE user_idx = #{userIdx}
+	</delete>
+	
+	<delete id="deleteEduData" parameterType="info">
+		DELETE FROM user_info_edu
+		WHERE user_idx = #{userIdx}
+	</delete>
+	
+	<delete id="deleteLicenData" parameterType="info">
+		DELETE FROM user_info_licen
+		WHERE user_idx = #{userIdx}
+	</delete>
+	
+	<delete id="deleteQualifiData" parameterType="info">
+		DELETE FROM user_info_qualifi
+		WHERE user_idx = #{userIdx}
+	</delete>
+	
+	<delete id="deleteSkillData" parameterType="info">
+		DELETE FROM user_info_skill
+		WHERE user_idx = #{userIdx}
+	</delete>
+	
+	<delete id="deleteTrainingData" parameterType="info">
+		DELETE FROM user_info_training
+		WHERE user_idx = #{userIdx}
+	</delete>
+	
+	<delete id="deleteBodyData" parameterType="info">
+		DELETE FROM user_info_body
+		WHERE user_idx = #{userIdx}
+	</delete>
+	<delete id="deleteImageData" parameterType="info">
+		DELETE FROM image
+		WHERE user_idx = #{userIdx}
+	</delete>
+		
+</mapper>

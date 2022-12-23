@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bodyDao">
+	
+	<resultMap type="body" id="body">
+		<result column="BODY_IDX" 				property="bodyIdx"/>
+		<result column="USER_IDX" 				property="userIdx"/>
+		<result column="BODY_BLOOD_TYPE" 		property="bodyBloodType"/>
+		<result column="BODY_WEIGHT" 			property="bodyWeight"/>
+		<result column="BODY_HEIGHT" 			property="bodyHeight"/>
+		<result column="BODY_EYESIGHT_LEFT"		property="bodyEyeSightLeft"/>
+		<result column="BODY_EYESIGHT_RIGHT"	property="bodyEyeSightRight"/>
+	</resultMap>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="bodyIdx" parameterType="hashmap">
+		<selectKey keyProperty="bodyIdx" resultType="Integer" order="BEFORE">
+			select user_info_body_seq.nextval from dual
+		</selectKey>
+		insert into 
+			user_info_body
+		(
+			BODY_IDX
+			,USER_IDX
+			,BODY_BLOOD_TYPE
+			,BODY_WEIGHT
+			,BODY_HEIGHT
+			,BODY_EYESIGHT_LEFT
+			,BODY_EYESIGHT_RIGHT
+		)	
+		values
+		(
+			#{bodyIdx}
+			,#{userIdx}
+			,#{bodyBloodType}
+			,#{bodyWeight}
+			,#{bodyHeight}
+			,#{bodyEyeSightLeft}
+			,#{bodyEyeSightRight}
+		)	
+	</insert>
+	
+	<select id="list" resultMap="body">
+		SELECT
+			BODY_BLOOD_TYPE as bodyBloodType
+			,BODY_WEIGHT as bodyWeight
+			,BODY_HEIGHT as bodyHeight
+			,BODY_EYESIGHT_LEFT as bodyEyeSightLeft
+			,BODY_EYESIGHT_RIGHT as bodyEyeSightRight
+		FROM
+			user_info_body
+		WHERE
+			user_idx=#{intUserIdx}
+	</select>
+	
+	<update id="updateUserBody">
+		UPDATE
+		USER_INFO_BODY
+		SET
+			BODY_BLOOD_TYPE 	 = #{bodyBloodType}     
+			,BODY_WEIGHT  		 = #{bodyWeight}
+			,BODY_HEIGHT 		 = #{bodyHeight}  
+			,BODY_EYESIGHT_LEFT  = #{bodyEyeSightLeft}    
+			,BODY_EYESIGHT_RIGHT = #{bodyEyeSightRight}    
+		WHERE 						
+			USER_IDX=#{userIdx}
+	</update>
+	
+</mapper>
