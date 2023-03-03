@@ -57,7 +57,7 @@ function goDelete(){
 	      success: function(result){
 	      	console.log(result);
 	      	alert("삭제되었습니다.");
-	      	location.href="./list";
+	      	location.href="./boardList";
 	      },
 	      error: function(xhr, status, error) {
 	      	alert(error);

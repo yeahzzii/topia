@@ -49,8 +49,12 @@ tr:nth-child(even) {
 }
 
 th {
-	background-color: #04AA6D;
+	background-color: rgba(165, 147, 224, 0.6);
 	color: white;
+}
+
+td {
+	cursor: pointer;
 }
 
 .header {
@@ -71,10 +75,15 @@ li {
 	margin-right: 5px;
 }
 
+.pageInfo_wrap {
+	text-align: center;
+}
+
 .pageInfo {
 	list-style: none;
 	display: inline-block;
 	margin: 50px 0 0 100px;
+	text-align: center;
 }
 
 .pageInfo li {
@@ -103,11 +112,28 @@ a:hover {
 .active {
 	background-color: #cdd5ec;
 }
+
+button {
+	padding: 10px 20px;
+	background-color: #A593E0;
+	color: #FFFFFF;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+button:hover {
+	background-color: rgba(165, 147, 224, 0.6);
+}
+
+.banner {
+	text-align: center;
+}
 </style>
 </head>
 <body>
 	<div class="header">
-		<div>
+		<div class="banner">
 			<h2>메모 게시판</h2>
 			<span><a class="logout" href="./logout">Logout</a></span> <span><a
 				class="login" href="./login">Login</a></span>
@@ -141,13 +167,10 @@ a:hover {
 						<button id="searchBtn">Search</button>
 					</li>
 					<li>
-						<button onclick="goInsert()" class="">등록</button>
+						<button onclick="goInsert()" id="insertBtn" class="">등록</button>
 					</li>
 					<li>
 						<button id="deleteBtn" name="deleteBtn" onclick="goDelete();">삭제</button>
-					</li>
-					<li>
-						<button onclick="goResult()" class="">결과몰아보기</button>
 					</li>
 				</ul>
 			</div>
@@ -167,8 +190,10 @@ a:hover {
 					<th>수정일자</th>
 					<th>등록아이디</th>
 					<th>수정아이디</th>
+					<%--
 					<th>등록아이피</th>
 					<th>수정아이피</th>
+					 --%>
 				</tr>
 			</thead>
 			<tbody>
@@ -185,12 +210,12 @@ a:hover {
 							name="boardNum" value="${bd.boardNum}"></td>
 						<td>${bd.boardNum}</td>
 						<c:choose>
-						<c:when test="${bd.noticeYN eq 'Y'}">
-							<td style="color: red">${bd.boardTitle}</td>
-						</c:when>
-						<c:otherwise>
-							<td>${bd.boardTitle}</td>
-						</c:otherwise>
+							<c:when test="${bd.noticeYN eq 'Y'}">
+								<td style="color: red">${bd.boardTitle}</td>
+							</c:when>
+							<c:otherwise>
+								<td>${bd.boardTitle}</td>
+							</c:otherwise>
 						</c:choose>
 						<td>${bd.boardContent}</td>
 						<td>${bd.writeDate}</td>
@@ -198,8 +223,10 @@ a:hover {
 						<td><fmt:formatDate value="${bd.updateDate}" type="date" /></td>
 						<td>${bd.registId}</td>
 						<td>${bd.updateId}</td>
+						<%--
 						<td>${bd.registIp}</td>
 						<td>${bd.updateIp}</td>
+						 --%>
 					</tr>
 
 				</c:forEach>

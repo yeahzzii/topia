@@ -12,72 +12,143 @@
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <link rel="shortcut icon" href="#">
+<style type="text/css">
+
+* {
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
+h3 h4 {
+	color: rgb(165, 147, 224); 
+}
+
+.wrapper {
+	text-align: center;
+}
+
+.inform {
+	display: inline-block;
+	position: relative;
+	text-align: center;
+	width: 660px;
+	background-color: white;
+	border-radius: 10px;
+}
+
+.form-group {
+	text-align: left;
+	margin: 30px 0;
+}
+
+input {
+	height: 40px;
+	width: 520px;
+	border: 0;
+	border-radius: 10px;
+	outline: none;
+	padding-left: 10px;
+  	background-color: rgba(221, 221, 221, 0.2);
+}
+
+.informBtn {
+	height: 40px;
+	width: 120px;
+	background-color: rgb(165, 147, 224);
+	color: #ffffff;
+	text-align: center;
+}
+
+.postcodeBtn {
+	height: 40px;
+	width: 120px;
+	background-color: rgb(165, 147, 224);
+	color: #ffffff;
+	text-align: center;
+}
+
+select {
+	width: 120px; 
+	padding: .8em .5em; 
+	border: 1px solid #999;
+	font-family: inherit;  
+	background: url('arrow.jpg') no-repeat 95% 50%; 
+	border-radius: 0px; 
+	-webkit-appearance: none; 
+	-moz-appearance: none;
+	appearance: none;
+}
+
+.complBtn {
+	height: 40px;
+	width: 180px; 
+	background-color: rgb(165, 147, 224);
+	color: #ffffff;
+	text-align: center;
+}
+
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap');
+</style>
 </head>
 <body>
 	<section class="wrapper">
 		<br>
-		<h3>
-			<i class="fa fa-angle-right"></i> 회원 가입 <i class="fa fa-angle-right"></i>
-			회원 정보 입력
-		</h3>
-		<form class="form-horizontal style-form" enctype="multipart/form-data"
-			action="./insertMember" method="post">
+		<h3>회원 가입</h3>
+		<form enctype="multipart/form-data" action="./insertMember"
+			method="post">
 			<!-- 회원 정보 -->
-			<div class="row mt">
-				<div class="col-lg-12">
-					<div class="form-panel">
-						<h4 class="mb">
-							<i class="fa fa-angle-right"></i> 회원 정보
-						</h4>
-						<div class="form-group">
-							<label class="col-sm-2 col-sm-2 control-label"> 아이디*</label>
-							<div class="col-sm-5">
-								<div class="form-inline">
-									<input type="text" class="form-control" name="userId">
-									<!--  -->
-									<input type="button" class="btn btn-theme03" name="idDuplConfirm" value="중복 확인">
-
-									<span class="help-block">* 아이디를 8자 이상, 16자 이하로 입력해주세요.</span> <input
-										type="hidden" name="idConfirm" value="idUncheck">
-									<h5 id="idMsg"></h5>
-								</div>
+			<div class="inform">
+				<div class="form-panel">
+					<h4>회원 정보</h4>
+					<div class="form-group">
+						<label> 아이디*</label>
+						<div>
+							<div class="form-inline">
+								<input type="text" name="userId">
+								<!--  -->
+								<input type="button" class="informBtn" name="idDuplConfirm"
+									value="중복 확인">
+								<p>* 아이디를 8자 이상, 16자 이하로 입력해주세요.</p>
+								<input type="hidden" name="idConfirm" value="idUncheck">
+								<h5 id="idMsg"></h5>
 							</div>
 						</div>
-						<div class="form-group">
-							<label class="col-sm-2 col-sm-2 control-label"> 비밀번호*</label>
-							<div class="col-sm-5">
-								<input type="password" class="form-control" name="userPassword">
-								<span class="help-block">* 비밀번호를 8자 이상, 16자 이하로 입력해주세요.</span>
-								<h5 id="pwMsg"></h5>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 col-sm-2 control-label"> 비밀번호 확인*</label>
-							<div class="col-sm-5">
-								<input type="password" class="form-control" name="pw_confirm">
-								<span class="help-block">* 위 비밀번호와 같은 값을 입력해주세요.</span>
-								<h5 id="pw_confirmMsg"></h5>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 col-sm-2 control-label"> 이름*</label>
-							<div class="col-sm-5">
-								<input type="text" class="form-control" name="userName">
-							</div>
-						</div>
-
 					</div>
+					<div class="form-group">
+						<label> 비밀번호*</label>
+						<div>
+							<input type="password" class="form-control" name="userPassword">
+							<p>* 비밀번호를 8자 이상, 16자 이하로 입력해주세요.</p>
+							<h5 id="pwMsg"></h5>
+						</div>
+					</div>
+					<div class="form-group">
+						<label> 비밀번호 확인*</label>
+						<div>
+							<input type="password" class="form-control" name="pw_confirm">
+							<p>* 위 비밀번호와 같은 값을 입력해주세요.</p>
+							<h5 id="pw_confirmMsg"></h5>
+						</div>
+					</div>
+					<div class="form-group">
+						<label> 이름*</label>
+						<div>
+							<input type="text" class="form-control" name="userName">
+						</div>
+					</div>
+
 				</div>
 
 				<!-- 연락처 정보 -->
 				<div class="form-group">
-					<label class="col-sm-2 col-sm-2 control-label"> 주소</label>
+					<label> 주소</label>
 					<div class="col-sm-5">
-						<input type="text" id="sample6_postcode" placeholder="우편번호" name="userAddress">
-						<input type="button" onclick="sample6_execDaumPostcode()"
-							value="우편번호 찾기"><br> 
-						<input type="text" id="sample6_address" placeholder="주소" name="userAddress"><br> 
-						<input type="text" id="sample6_detailAddress" placeholder="상세주소" name="userAddress">
+						<input type="text" id="sample6_postcode" placeholder="우편번호"
+							name="userAddress"> 
+							<input type="button" class="postcodeBtn" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
+						<input type="text" id="sample6_address" placeholder="주소"
+							name="userAddress"><br> <input type="text"
+							id="sample6_detailAddress" placeholder="상세주소" name="userAddress">
 
 						<script
 							src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -116,9 +187,8 @@
 																+ data.buildingName
 																: data.buildingName);
 													}
-											
 
-												} 
+												}
 												// 우편번호와 주소 정보를 해당 필드에 넣는다.
 												document
 														.getElementById('sample6_postcode').value = data.zonecode;
@@ -135,10 +205,10 @@
 						</script>
 					</div>
 				</div>
-				
+
 				<div class="form-group">
-					<label class="col-sm-2 col-sm-2 control-label"> 성별*</label>
-					<div class="col-sm-5">
+					<label> 성별*</label>
+					<div>
 						<select name="userSex">
 							<option value="남자">남자</option>
 							<option value="여자">여자</option>
@@ -147,27 +217,28 @@
 				</div>
 
 				<div class="form-group">
-					<label class="col-sm-2 col-sm-2 control-label"> 이메일*</label>
-					<div class="col-sm-5">
+					<label> 이메일*</label>
+					<div>
 						<input type="text" class="form-control" name="userEmail">
 					</div>
 				</div>
-				
+
 				<div class="form-group">
-					<label class="col-sm-2 col-sm-2 control-label"> 핸드폰번호</label>
-					<div class="col-sm-5">
+					<label> 핸드폰번호</label>
+					<div>
 						<input type="text" class="form-control" name="userPhoneNumber">
 					</div>
 				</div>
+			</div>
 		</form>
 		<!-- /row -->
 		<!-- col-lg-12-->
-		<br> <input type="button" class="btn btn-default"
+		<br> <input type="button" class="complBtn"
 			onclick="check()" value="가입 완료">
 	</section>
 
 </body>
 <script
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<script src="./resources/js/personalHistory/register.js" charset="UTF-8"></script>
+<script src="./resources/js/personalHistory/register.js" charset="UTF-8"></script>
 </html>

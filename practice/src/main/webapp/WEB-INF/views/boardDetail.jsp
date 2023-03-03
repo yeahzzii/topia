@@ -7,17 +7,22 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+th td {
+	
+}
+</style>
 </head>
 <body>
 	<section class="panel">
-              <header class="panel-heading wht-bg">
-                <h4 class="gen-case">
-                    <i class="fa fa-angle-right"></i> 게시판 상세
+              <header class="">
+                <h4 class="">
+                    게시판 상세
                   </h4>
               </header>
        
            
-                <div class="compose-btn">
+                <div class="">
                 <table>
                 	<tr>
                 	<td>
@@ -32,9 +37,9 @@
                 	</td>
                 	</tr>
                 </table>
-                  <button class="btn btn-theme btn-sm" onclick="goUpdate(${board.boardNum})"> 수정</button>
-                  <button class="btn btn-sm" onclick="deleteProc()"><i class="fa fa-times"></i>삭제</button>
-                  <button class="btn btn-sm"onclick="goMain()">목록</button>
+                  <button class="" onclick="goUpdate(${board.boardNum})"> 수정</button>
+                  <button class="" onclick="deleteProc()"><i class="fa fa-times"></i>삭제</button>
+                  <button class=""onclick="goMain()">목록</button>
                 </div>
              
             </section>
